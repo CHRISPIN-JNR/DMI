@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DMI Payment Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #2c5282;
+        }
+
+        header h1 {
+            font-size: 1.4rem;
+            color: #1a365d;
+            line-height: 1.4;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .payment-info {
+            background: #f7fafc;
+            border-left: 4px solid #2c5282;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+
+        .payment-info h2 {
+            color: #1a365d;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+
+        .info-value {
+            color: #1a365d;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-align: right;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        select,
+        input[type="number"],
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+            background: white;
+        }
+
+        select:focus,
+        input[type="number"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2c5282;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .currency-symbol {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #718096;
+            font-weight: 600;
+            font-size: 1rem;
+            pointer-events: none;
+        }
+
+        input[type="number"] {
+            padding-right: 50px;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .pay-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #2c5282 0%, #1a365d 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+
+        .pay-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(44, 82, 130, 0.3);
+        }
+
+        .pay-button:active {
+            transform: translateY(0);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #718096;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 25px 20px;
+            }
+
+            header h1 {
+                font-size: 1.1rem;
+            }
+
+            .info-row {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .info-value {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>DMI ST JOHN THE BAPTIST UNIVERSITY LILONGWE CAMPUS</h1>
+        </header>
+
+        <section class="payment-info">
+            <h2>Bank Details</h2>
+            <div class="info-row">
+                <span class="info-label">Bank Name:</span>
+                <span class="info-value">National Bank</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Account Name:</span>
+                <span class="info-value">TRUST OF DMI AND COLLABORATORS</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Account Number:</span>
+                <span class="info-value">1001060755</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Branch:</span>
+                <span class="info-value">Capital City</span>
+            </div>
+        </section>
+
+        <form id="paymentForm">
+            <div class="form-group">
+                <label for="feeType">Fee Type</label>
+                <select id="feeType" name="feeType" required>
+                    <option value="">Select Fee Type</option>
+                    <option value="registration">Registration</option>
+                    <option value="tuition">Tuition</option>
+                    <option value="sports-club">Sports and Club</option>
+                    <option value="students-union">Students Union</option>
+                    <option value="id-card">ID Card</option>
+                    <option value="teaching-practice">Teaching Practice</option>
+                    <option value="project">Project</option>
+                    <option value="supplementary-exams">Supplementary Exams</option>
+                    <option value="revaluation">Revaluation</option>
+                    <option value="hostel">Hostel</option>
+                    <option value="transport">Transport</option>
+                    <option value="certificate-course">Certificate Course</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Payment Amount</label>
+                <div class="input-wrapper">
+                    <input type="number" id="amount" name="amount" placeholder="0.00" step="0.01" min="0" required>
+                    <span class="currency-symbol">MK</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description / Remarks</label>
+                <textarea id="description" name="description" placeholder="Enter any additional transaction details or remarks..."></textarea>
+            </div>
+
+            <button type="submit" class="pay-button">Pay</button>
+        </form>
+
+        <div class="footer">
+            <p>Secure Payment Portal</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const feeType = document.getElementById('feeType').value;
+            const amount = document.getElementById('amount').value;
+            const description = document.getElementById('description').value;
+
+            if (!feeType) {
+                alert('Please select a fee type.');
+                return;
+            }
+
+            if (!amount || parseFloat(amount) <= 0) {
+                alert('Please enter a valid payment amount.');
+                return;
+            }
+
+            const feeTypeText = document.getElementById('feeType').options[document.getElementById('feeType').selectedIndex].text;
+            const formattedAmount = parseFloat(amount).toLocaleString('en-MW', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+            const message = `Payment Details:\n\n` +
+                          `Fee Type: ${feeTypeText}\n` +
+                          `Amount: MK ${formattedAmount}\n` +
+                          `Description: ${description || 'N/A'}\n\n` +
+                          `Bank: National Bank\n` +
+                          `Account: TRUST OF DMI AND COLLABORATORS\n` +
+                          `Account No: 1001060755\n` +
+                          `Branch: Capital City\n\n` +
+                          `Please proceed with your payment.`;
+
+            alert(message);
+
+            // Reset form
+            this.reset();
+        });
+    </script>
+</body>
+</html>
