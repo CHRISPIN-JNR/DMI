@@ -228,19 +228,25 @@
         <form id="paymentForm">
             <div class="form-group">
                 <label>Fee Type <span class="hint">(select one or more)</span></label>
-                <div class="fee-options" id="feeType">
-                    <label class="fee-option"><input type="checkbox" name="feeType" value="registration"> Registration</label>
-                    <label class="fee-option"><input type="checkbox" name="feeType" value="tuition"> Tuition</label>
-                    <label class="fee-option"><input type="checkbox" name="feeType" value="sports-club"> Sports and Club</label>
-                    <label class="fee-option"><input type="checkbox" name="feeType" value="students-union"> Students Union</label>
-                    <label class="fee-option"><input type="checkbox" name="feeType" value="id-card"> ID Card</label>
-                    <label class="fee-option"><input type="checkbox" name="feeType" value="teaching-practice"> Teaching Practice</label>
-                    <label class="fee-option"><input type="checkbox" name="feeType" value="project"> Project</label>
-                    <label class="fee-option"><input type="checkbox" name="feeType" value="supplementary-exams"> Supplementary Exams</label>
-                    <label class="fee-option"><input type="checkbox" name="feeType" value="revaluation"> Revaluation</label>
-                    <label class="fee-option"><input type="checkbox" name="feeType" value="hostel"> Hostel</label>
-                    <label class="fee-option"><input type="checkbox" name="feeType" value="transport"> Transport</label>
-                    <label class="fee-option"><input type="checkbox" name="feeType" value="certificate-course"> Certificate Course</label>
+                    <div class="multiselect" id="feeType">
+                    <div class="multiselect-toggle" id="feeTypeToggle" tabindex="0" role="button" aria-haspopup="listbox" aria-expanded="false">
+                        <span class="multiselect-placeholder" id="feeTypePlaceholder">Select Fee Type(s)</span>
+                        <span class="multiselect-arrow">&#9662;</span>
+                    </div>
+                    <div class="multiselect-panel" id="feeTypePanel" role="listbox" aria-multiselectable="true">
+                        <label class="fee-option"><input type="checkbox" name="feeType" value="registration"> Registration</label>
+                        <label class="fee-option"><input type="checkbox" name="feeType" value="tuition"> Tuition</label>
+                        <label class="fee-option"><input type="checkbox" name="feeType" value="sports-club"> Sports and Club</label>
+                        <label class="fee-option"><input type="checkbox" name="feeType" value="students-union"> Students Union</label>
+                        <label class="fee-option"><input type="checkbox" name="feeType" value="id-card"> ID Card</label>
+                        <label class="fee-option"><input type="checkbox" name="feeType" value="teaching-practice"> Teaching Practice</label>
+                        <label class="fee-option"><input type="checkbox" name="feeType" value="project"> Project</label>
+                        <label class="fee-option"><input type="checkbox" name="feeType" value="supplementary-exams"> Supplementary Exams</label>
+                        <label class="fee-option"><input type="checkbox" name="feeType" value="revaluation"> Revaluation</label>
+                        <label class="fee-option"><input type="checkbox" name="feeType" value="hostel"> Hostel</label>
+                        <label class="fee-option"><input type="checkbox" name="feeType" value="transport"> Transport</label>
+                        <label class="fee-option"><input type="checkbox" name="feeType" value="certificate-course"> Certificate Course</label>
+                    </div>
                 </div>
             </div>
 
