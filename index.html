@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DMI Payment Portal</title>
     <style>
@@ -111,7 +111,105 @@
             background: white;
         }
 
-        select:focus,
+        .multiselect {
+            position: relative;
+            z-index: 5;
+        }
+
+        .multiselect-toggle {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-family: inherit;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            transition: border-color 0.3s;
+            min-height: 48px;
+            text-align: left;
+        }
+
+        .multiselect-toggle:focus,
+        .multiselect.open .multiselect-toggle {
+            outline: none;
+            border-color: #2c5282;
+        }
+
+        .multiselect-placeholder {
+            color: #718096;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .multiselect-toggle.has-selection .multiselect-placeholder {
+            color: #1a365d;
+            font-weight: 600;
+        }
+
+        .multiselect-arrow {
+            color: #718096;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+
+        .multiselect.open .multiselect-arrow {
+            transform: rotate(180deg);
+        }
+
+        .multiselect-panel {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            right: 0;
+            background: white;
+            border: 2px solid #2c5282;
+            border-radius: 6px;
+            box-shadow: 0 10px 25px rgba(44, 82, 130, 0.2);
+            padding: 8px;
+            display: none;
+            z-index: 10;
+            max-height: 240px;
+            overflow-y: auto;
+        }
+
+        .multiselect.open .multiselect-panel {
+            display: block;
+        }
+
+        .multiselect.open-up .multiselect-panel {
+            top: auto;
+            bottom: calc(100% + 4px);
+        }
+
+        .fee-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            padding: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #2d3748;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .fee-option:hover {
+            background: #f7fafc;
+        }
+
+        .fee-option input[type="checkbox"] {
+            width: auto;
+            accent-color: #2c5282;
+            cursor: pointer;
+        }
         input[type="number"]:focus,
         textarea:focus {
             outline: none;
@@ -228,7 +326,7 @@
         <form id="paymentForm">
             <div class="form-group">
                 <label>Fee Type <span class="hint">(select one or more)</span></label>
-                    <div class="multiselect" id="feeType">
+                <div class="multiselect" id="feeType">
                     <div class="multiselect-toggle" id="feeTypeToggle" tabindex="0" role="button" aria-haspopup="listbox" aria-expanded="false">
                         <span class="multiselect-placeholder" id="feeTypePlaceholder">Select Fee Type(s)</span>
                         <span class="multiselect-arrow">&#9662;</span>
@@ -259,8 +357,8 @@
             </div>
 
             <div class="form-group">
-                <label for="description">Description / Remarks</label>
-                <textarea id="description" name="description" placeholder="Enter your Name, Reg No, Program and Semester..."></textarea>
+                <label for="description">Description / Remarks <span class="hint">(required)</span></label>
+                <textarea id="description" name="description" placeholder="Enter your Name, Reg No, Program and Semester..." required></textarea>
             </div>
 
             <button type="submit" class="pay-button">Pay</button>
@@ -272,15 +370,80 @@
     </div>
 
     <script>
+        const feeType = document.getElementById('feeType');
+        const feeTypeToggle = document.getElementById('feeTypeToggle');
+        const feeTypePanel = document.getElementById('feeTypePanel');
+        const feeTypePlaceholder = document.getElementById('feeTypePlaceholder');
+        const feeCheckboxes = document.querySelectorAll('input[name="feeType"]');
+
+        function updateFeeLabel() {
+            const selected = Array.from(feeCheckboxes).filter(cb => cb.checked);
+            const labels = selected.map(cb => cb.nextSibling.textContent.trim());
+            if (selected.length === 0) {
+                feeTypePlaceholder.textContent = 'Select Fee Type(s)';
+                feeTypeToggle.classList.remove('has-selection');
+            } else if (selected.length === 1) {
+                feeTypePlaceholder.textContent = labels[0];
+                feeTypeToggle.classList.add('has-selection');
+            } else {
+                feeTypePlaceholder.textContent = `${selected.length} fee types selected`;
+                feeTypeToggle.classList.add('has-selection');
+            }
+        }
+
+        function openDropdown() {
+            feeType.classList.add('open');
+            feeTypeToggle.setAttribute('aria-expanded', 'true');
+
+            const rect = feeTypeToggle.getBoundingClientRect();
+            const spaceBelow = window.innerHeight - rect.bottom;
+            const spaceAbove = rect.top;
+            const panelHeight = Math.min(feeTypePanel.scrollHeight, 240) + 8;
+
+            if (spaceBelow < panelHeight && spaceAbove > spaceBelow) {
+                feeType.classList.add('open-up');
+                feeTypePanel.style.maxHeight = Math.min(240, spaceAbove - 8) + 'px';
+            } else {
+                feeType.classList.remove('open-up');
+                feeTypePanel.style.maxHeight = Math.min(240, spaceBelow - 8) + 'px';
+            }
+        }
+
+        function closeDropdown() {
+            feeType.classList.remove('open');
+            feeTypeToggle.setAttribute('aria-expanded', 'false');
+        }
+
+        feeTypeToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            feeType.classList.contains('open') ? closeDropdown() : openDropdown();
+        });
+
+        feeTypeToggle.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                feeType.classList.contains('open') ? closeDropdown() : openDropdown();
+            }
+        });
+
+        feeCheckboxes.forEach(cb => cb.addEventListener('change', updateFeeLabel));
+
+        document.addEventListener('click', function(e) {
+            if (!feeType.contains(e.target)) {
+                closeDropdown();
+            }
+        });
+
         document.getElementById('paymentForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const feeType = document.getElementById('feeType').value;
+            const checkedBoxes = Array.from(feeCheckboxes).filter(cb => cb.checked);
+            const feeTypeTexts = checkedBoxes.map(cb => cb.nextSibling.textContent.trim());
             const amount = document.getElementById('amount').value;
-            const description = document.getElementById('description').value;
+            const description = document.getElementById('description').value.trim();
 
-            if (!feeType) {
-                alert('Please select a fee type.');
+            if (checkedBoxes.length === 0) {
+                alert('Please select at least one fee type.');
                 return;
             }
 
@@ -289,11 +452,16 @@
                 return;
             }
 
-            const feeTypeText = document.getElementById('feeType').options[document.getElementById('feeType').selectedIndex].text;
+            if (!description) {
+                alert('Please enter a description.');
+                return;
+            }
+
             const formattedAmount = parseFloat(amount).toLocaleString('en-MW', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const feeTypeList = feeTypeTexts.join(', ');
 
             const message = `Payment Details:\n\n` +
-                          `Fee Type: ${feeTypeText}\n` +
+                          `Fee Type: ${feeTypeList}\n` +
                           `Amount: MK ${formattedAmount}\n` +
                           `Description: ${description || 'N/A'}\n\n` +
                           `Bank: National Bank\n` +
@@ -306,6 +474,8 @@
 
             // Reset form
             this.reset();
+            closeDropdown();
+            updateFeeLabel();
         });
     </script>
 </body>
