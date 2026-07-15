@@ -227,22 +227,21 @@
 
         <form id="paymentForm">
             <div class="form-group">
-                <label for="feeType">Fee Type</label>
-                <select id="feeType" name="feeType" required>
-                    <option value="">Select Fee Type</option>
-                    <option value="registration">Registration</option>
-                    <option value="tuition">Tuition</option>
-                    <option value="sports-club">Sports and Club</option>
-                    <option value="students-union">Students Union</option>
-                    <option value="id-card">ID Card</option>
-                    <option value="teaching-practice">Teaching Practice</option>
-                    <option value="project">Project</option>
-                    <option value="supplementary-exams">Supplementary Exams</option>
-                    <option value="revaluation">Revaluation</option>
-                    <option value="hostel">Hostel</option>
-                    <option value="transport">Transport</option>
-                    <option value="certificate-course">Certificate Course</option>
-                </select>
+                <label>Fee Type <span class="hint">(select one or more)</span></label>
+                <div class="fee-options" id="feeType">
+                    <label class="fee-option"><input type="checkbox" name="feeType" value="registration"> Registration</label>
+                    <label class="fee-option"><input type="checkbox" name="feeType" value="tuition"> Tuition</label>
+                    <label class="fee-option"><input type="checkbox" name="feeType" value="sports-club"> Sports and Club</label>
+                    <label class="fee-option"><input type="checkbox" name="feeType" value="students-union"> Students Union</label>
+                    <label class="fee-option"><input type="checkbox" name="feeType" value="id-card"> ID Card</label>
+                    <label class="fee-option"><input type="checkbox" name="feeType" value="teaching-practice"> Teaching Practice</label>
+                    <label class="fee-option"><input type="checkbox" name="feeType" value="project"> Project</label>
+                    <label class="fee-option"><input type="checkbox" name="feeType" value="supplementary-exams"> Supplementary Exams</label>
+                    <label class="fee-option"><input type="checkbox" name="feeType" value="revaluation"> Revaluation</label>
+                    <label class="fee-option"><input type="checkbox" name="feeType" value="hostel"> Hostel</label>
+                    <label class="fee-option"><input type="checkbox" name="feeType" value="transport"> Transport</label>
+                    <label class="fee-option"><input type="checkbox" name="feeType" value="certificate-course"> Certificate Course</label>
+                </div>
             </div>
 
             <div class="form-group">
